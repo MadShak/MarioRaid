@@ -1,0 +1,393 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MARIO RAID — CSS
+   Responsivo: desktop, tablet landscape, mobile landscape, mobile portrait
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Reset base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  /* iOS Safari — altura real sem a barra do browser */
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  background: #0d0500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+  /* O body NÃO tem overflow:hidden — isso cortaria o box-shadow do canvas.
+     O scroll é impedido pelo #app que tem exatamente height:100vh. */
+  overflow: visible;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* Fundo com padrão sutil de tijolos */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(120,50,0,0.07) 0px, rgba(120,50,0,0.07) 1px,
+      transparent 1px, transparent 40px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(120,50,0,0.07) 0px, rgba(120,50,0,0.07) 1px,
+      transparent 1px, transparent 20px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout principal ───────────────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  height: -webkit-fill-available;
+  position: relative;
+  z-index: 1;
+  /* SEM overflow:hidden aqui — isso cortaria o box-shadow do canvas.
+     O scroll é impedido pelo canvas ser menor que o viewport (resizeCanvas).
+     O padding cria a margem mínima para a moldura dourada não tocar as bordas. */
+  overflow: visible;
+  padding: 14px;
+  padding-top:    max(14px, env(safe-area-inset-top,    14px));
+  padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
+  padding-left:   max(14px, env(safe-area-inset-left,   14px));
+  padding-right:  max(14px, env(safe-area-inset-right,  14px));
+}
+
+/* ── Canvas wrapper — ancora os botões ao canvas ────────────────────────── */
+#canvas-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  overflow: visible; /* box-shadow do canvas não é cortado */
+}
+
+/* ── Canvas ─────────────────────────────────────────────────────────────── */
+#game {
+  display: block;
+  background: #1a6fb5;
+  image-rendering: auto;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 4px #f5c842,
+    0 0 0 7px #c8860a,
+    0 0 0 10px #7a4500,
+    0 0 40px rgba(232,24,10,0.45),
+    0 0 80px rgba(200,130,0,0.25);
+  flex-shrink: 0;
+}
+
+@keyframes borderPulse {
+  0%   { box-shadow: 0 0 0 4px #f5c842, 0 0 0 7px #c8860a, 0 0 0 10px #7a4500, 0 0 40px rgba(232,24,10,0.45), 0 0 80px rgba(200,130,0,0.25); }
+  50%  { box-shadow: 0 0 0 4px #ffe066, 0 0 0 7px #e6a800, 0 0 0 10px #9e6800, 0 0 55px rgba(232,24,10,0.60), 0 0 100px rgba(200,130,0,0.35); }
+  100% { box-shadow: 0 0 0 4px #f5c842, 0 0 0 7px #c8860a, 0 0 0 10px #7a4500, 0 0 40px rgba(232,24,10,0.45), 0 0 80px rgba(200,130,0,0.25); }
+}
+#game { animation: borderPulse 3s ease-in-out infinite; }
+
+/* ── Botões de sistema — ancorados ao canvas-wrapper ───────────────────── */
+#fullscreen-btn,
+#mute-btn {
+  position: absolute;
+  top: 8px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #f5c842;
+  border-radius: 8px;
+  background: rgba(20,8,0,0.75);
+  color: #f5c842;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  z-index: 20;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+#fullscreen-btn { right: 8px; }
+#mute-btn       { right: 56px; }
+
+#fullscreen-btn:hover, #mute-btn:hover,
+#fullscreen-btn:active, #mute-btn:active {
+  background: rgba(200,130,0,0.45);
+  transform: scale(1.1);
+}
+
+/* ── Dica de controles (desktop) ────────────────────────────────────────── */
+#hint {
+  color: #c8a060;
+  font-size: 12px;
+  font-family: "Consolas", "SF Mono", "Courier New", monospace;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  background: rgba(10,4,0,0.55);
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(200,130,0,0.3);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CONTROLES TOUCH VIRTUAIS
+   Ficam em position:fixed no rodapé — nunca interferem no layout do canvas
+   ══════════════════════════════════════════════════════════════════════════ */
+#touch-controls {
+  display: none; /* JS adiciona .active para mostrar */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* Altura auto — se adapta ao conteúdo sem cortar */
+  height: auto;
+  min-height: 140px;
+  /* Safe area bottom (home indicator iPhone X+) */
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  padding-left:   max(12px, env(safe-area-inset-left,   12px));
+  padding-right:  max(12px, env(safe-area-inset-right,  12px));
+  padding-top: 8px;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  /* Só os filhos com pointer-events:all recebem toques */
+  pointer-events: none;
+  z-index: 100;
+  background: linear-gradient(to top, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0) 100%);
+}
+
+#touch-controls.active {
+  display: flex;
+}
+
+/* ── D-Pad ──────────────────────────────────────────────────────────────── */
+#dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.dpad-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+.dpad-center {
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dpad-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  border: 2px solid rgba(245,200,66,0.65);
+  background: rgba(10,4,0,0.80);
+  color: #f5c842;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: all;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  flex-shrink: 0;
+  transition: background 0.08s, transform 0.06s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.dpad-btn:active,
+.dpad-btn.pressed {
+  background: rgba(200,130,0,0.55);
+  transform: scale(0.91);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.35);
+}
+
+/* ── Botões de ação (lado direito) ─────────────────────────────────────── */
+#action-btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+  flex-shrink: 0;
+  /* Largura máxima para não extrapolar a tela */
+  max-width: 220px;
+}
+
+.action-btn {
+  border-radius: 50%;
+  border: 2px solid rgba(245,200,66,0.7);
+  background: rgba(10,4,0,0.80);
+  color: #fff;
+  font-weight: bold;
+  font-family: "Arial Black", Gadget, sans-serif;
+  cursor: pointer;
+  pointer-events: all;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.08s, transform 0.06s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.action-btn:active,
+.action-btn.pressed {
+  background: rgba(200,130,0,0.55);
+  transform: scale(0.91);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.35);
+}
+
+#btn-fire  {
+  width: 66px; height: 66px;
+  font-size: 26px;
+  border-color: rgba(255,100,30,0.85);
+}
+#btn-turbo {
+  width: 54px; height: 54px;
+  font-size: 22px;
+  border-color: rgba(100,200,255,0.85);
+}
+#btn-start {
+  width: auto;
+  height: 38px;
+  border-radius: 19px;
+  padding: 0 18px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border-radius: 19px;
+  border-color: rgba(245,200,66,0.9);
+  color: #f5c842;
+  /* Start não é circular */
+  border-radius: 19px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   AVISO DE ROTAÇÃO (portrait mobile)
+   ══════════════════════════════════════════════════════════════════════════ */
+#rotate-notice {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,4,0,0.93);
+  z-index: 300;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #f5c842;
+  text-align: center;
+  padding: 24px;
+}
+
+#rotate-notice .rotate-icon {
+  font-size: 72px;
+  animation: rotateAnim 2s ease-in-out infinite;
+}
+
+@keyframes rotateAnim {
+  0%   { transform: rotate(0deg); }
+  40%  { transform: rotate(-90deg); }
+  60%  { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+#rotate-notice p {
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 18px;
+  margin: 0;
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+/* Portrait em dispositivos estreitos */
+@media (max-width: 600px) and (orientation: portrait) {
+  #rotate-notice { display: flex; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FULLSCREEN
+   ══════════════════════════════════════════════════════════════════════════ */
+#app:fullscreen,
+#app:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  padding: 0;
+  background: #000;
+}
+
+#app:fullscreen #hint,
+#app:-webkit-full-screen #hint {
+  display: none;
+}
+
+#app:fullscreen #game,
+#app:-webkit-full-screen #game {
+  animation: none;
+  border-radius: 0;
+  box-shadow:
+    0 0 0 3px #f5c842,
+    0 0 0 6px #c8860a,
+    0 0 60px rgba(232,24,10,0.5);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVIDADE
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Landscape estreito (mobile): reduz hint e padding */
+@media (max-height: 480px) {
+  #hint { display: none; }
+  #app  { padding: 8px; }
+}
+
+/* Telas muito pequenas: reduz botões de sistema */
+@media (max-width: 380px) {
+  #fullscreen-btn, #mute-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+  #mute-btn { right: 50px; }
+}

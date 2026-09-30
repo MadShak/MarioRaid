@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0500">
+<title>Mario Raid 🍄</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <!-- Wrapper do canvas — botões de sistema ficam ancorados a ele -->
+  <div id="canvas-wrapper">
+    <canvas id="game" width="1024" height="576"></canvas>
+    <button id="fullscreen-btn" title="Tela cheia (F)" aria-label="Tela cheia">⛶</button>
+    <button id="mute-btn" title="Som (M)" aria-label="Mudo">🔊</button>
+  </div>
+
+  <!-- Dica de controles — desktop apenas -->
+  <div id="hint">← → Mover &nbsp;|&nbsp; ↑ ↓ Altitude &nbsp;|&nbsp; Shift Turbo &nbsp;|&nbsp; Espaço Fireball &nbsp;|&nbsp; Enter Iniciar</div>
+
+  <!-- ── Controles touch virtuais ── -->
+  <div id="touch-controls" aria-hidden="true">
+
+    <!-- D-pad esquerdo: movimento direcional -->
+    <div id="dpad">
+      <button class="dpad-btn" id="btn-up"    data-action="up"    aria-label="Cima">▲</button>
+      <div class="dpad-row">
+        <button class="dpad-btn" id="btn-left"  data-action="left"  aria-label="Esquerda">◀</button>
+        <div class="dpad-center"></div>
+        <button class="dpad-btn" id="btn-right" data-action="right" aria-label="Direita">▶</button>
+      </div>
+      <button class="dpad-btn" id="btn-down"  data-action="down"  aria-label="Baixo">▼</button>
+    </div>
+
+    <!-- Botões direitos: ação -->
+    <div id="action-btns">
+      <button class="action-btn" id="btn-fire"  data-action="shoot" aria-label="Fireball">🔥</button>
+      <button class="action-btn" id="btn-turbo" data-action="run"   aria-label="Turbo">⚡</button>
+      <button class="action-btn" id="btn-start" data-action="start" aria-label="Start">▶ START</button>
+    </div>
+
+  </div><!-- /#touch-controls -->
+
+  <!-- Aviso de orientação (portrait em mobile) -->
+  <div id="rotate-notice">
+    <div class="rotate-icon">📱↻</div>
+    <p>Gire o dispositivo para paisagem para uma melhor experiência!</p>
+  </div>
+
+</div><!-- /#app -->
+
+<script src="js/utils.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/graph.js"></script>
+<script src="js/level.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/input.js"></script>
+<script src="js/entities.js"></script>
+<script src="js/renderer.js"></script>
+<script src="js/game.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

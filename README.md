@@ -191,4 +191,4 @@ A curva de dificuldade fica em `js/levels.js`.
 
 ## 📄 Licença
 
-Defina aqui a licença do seu projeto (por exemplo, [MIT](https://choosealicense.com/licenses/mit/)).
+[MIT](https://choosealicense.com/licenses/mit/)).

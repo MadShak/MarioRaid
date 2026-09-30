@@ -189,12 +189,6 @@ A curva de dificuldade fica em `js/levels.js`.
 - [ ] Modo PWA com *service worker* para jogar offline.
 - [ ] Testes automatizados do gerador de terreno usando `graph.js`.
 
----
-
-## ⚠️ Aviso
-
-Este é um projeto de fã, sem fins lucrativos e feito para estudo. *Super Mario* é uma marca da **Nintendo** e *River Raid* é da **Activision**; nenhuma afiliação ou endosso é sugerido.
-
 ## 📄 Licença
 
 Defina aqui a licença do seu projeto (por exemplo, [MIT](https://choosealicense.com/licenses/mit/)).

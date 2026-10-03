@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
   const canvas       = document.getElementById('game');
+  const bylineLink   = document.getElementById('byline-link');
   const app          = document.getElementById('app');
   const fullscreenBtn= document.getElementById('fullscreen-btn');
   const muteBtn      = document.getElementById('mute-btn');
@@ -56,6 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const scaleFs = Math.min(window.innerWidth / CANVAS_W, window.innerHeight / CANVAS_H);
       canvas.style.width  = `${Math.floor(CANVAS_W * scaleFs)}px`;
       canvas.style.height = `${Math.floor(CANVAS_H * scaleFs)}px`;
+      bylineLink.style.fontSize = `${canvas.clientHeight * 15 / CANVAS_H}px`;
       return;
     }
 
@@ -80,6 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     canvas.style.width  = `${Math.floor(CANVAS_W * scale)}px`;
     canvas.style.height = `${Math.floor(CANVAS_H * scale)}px`;
+    bylineLink.style.fontSize = `${canvas.clientHeight * 15 / CANVAS_H}px`;
   }
 
   // ── Orientação em mobile ──────────────────────────────────────────────

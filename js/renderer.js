@@ -4,6 +4,7 @@ MK.Renderer = (function () {
   const FONT = '"Segoe UI", system-ui, -apple-system, Roboto, sans-serif';
   const MONO = '"Consolas", "SF Mono", "Courier New", monospace';
   const MARIO_FONT = '"Arial Black", "Arial Bold", Gadget, sans-serif';
+  const bylineLink = document.getElementById('byline-link');
 
   // ── helpers ────────────────────────────────────────────────────────────────
   function roundRect(ctx, x, y, w, h, r) {
@@ -1591,6 +1592,7 @@ MK.Renderer = (function () {
   // ── RENDER PRINCIPAL ─────────────────────────────────────────────────────────
   return {
     render(ctx, canvas, game) {
+      bylineLink.hidden = game.state !== 'menu';
       const tick = performance.now() / 1000;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 

@@ -107,6 +107,21 @@ body::before {
 }
 #game { animation: borderPulse 3s ease-in-out infinite; }
 
+/* ── Link de autoria — posicionado sobre o texto no menu do canvas ─────── */
+#byline-link {
+  position: absolute;
+  top: 50.36%;
+  left: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  color: #ffe0bd;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
 /* ── Botões de sistema — ancorados ao canvas-wrapper ───────────────────── */
 #fullscreen-btn,
 #mute-btn {
